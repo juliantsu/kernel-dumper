@@ -16,7 +16,7 @@ section .data
     SE_SYSTEM_PROFILE_NAME db "SeSystemProfilePrivilege", 0
     file_name db "dump.bin", 0
     fmt_status db "NTSTATUS: 0x%08X", 0x0a, 0
-    
+
     .msgs:
         msg_okay db "Success", 0x0a, 0
         error_msg_open_token db "Failed to open process token.",0x0a, 0
@@ -87,6 +87,12 @@ main:
     mov rdx, rax
     mov rcx, fmt_status
     call printf
+
+    mov rcx, [hEvent]
+    call CloseHandle ; close event handle
+
+    mov rcx, rbx
+    call CloseHandle ; close file handle
 
     .end:
     add rsp, 64 ; restore shadow space
