@@ -160,6 +160,9 @@ adjust_privileges:
     jmp .end
 
     .adjust_success:
+    mov rcx, [hToken]
+    call CloseHandle ; cleanup
+    mov qword [hToken], 0 ; clear token handle
     mov rcx, msg_okay
     call printf
 
